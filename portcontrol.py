@@ -1,19 +1,25 @@
-import gpio
+#import RPi.GPIO as GPIO
 
 def reset():
     for i in range(0,8):
-        gpio.cleanup(i)
+        print 'what'
     return 0
 
 def setport(port):
     try:
-        gpio.set(port,gpio.HIGH)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setup(port,GPIO.OUT)
+        GPIO.output(port,GPIO.HIGH)
     except IOError ,err:
         print err
 
 def resetport(port):
     try:
-        gpio.set(port,gpio.LOW)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setup(port, GPIO.OUT)
+        GPIO.output(port, GPIO.LOW)
     except IOError, err:
         print err
 

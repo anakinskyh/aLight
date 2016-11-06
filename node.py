@@ -1,6 +1,7 @@
 import socket
 import json
 import portcontrol
+import utility
 
 def set_bit():
     return 0
@@ -10,7 +11,10 @@ def runcmd(cmd):
         portcontrol.setbylist(cmd['arg'])
 
 if __name__ == '__main__':
+
     _IP = '127.0.0.1'
+    _IP = utility.get_ip()
+    _IP = socket.gethostname()
     _PORT = 5050
 
     s = socket.socket(socket.AF_INET,socket.SOCK_STREAM)

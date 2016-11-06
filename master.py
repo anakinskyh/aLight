@@ -2,9 +2,18 @@ import socket
 import sys
 import math
 import json
+import utility
 
 def sendcmd(id,port,msg):
-    IP_ = '127.0.0.'+id
+    #IP_ = '192.168.1.'+id
+    IP_ = '127.0.0.1'
+
+    exIP = utility.get_ip()
+    arr_ex_IP = exIP.split('.')
+    #print arr_ex_IP
+    IP_ = arr_ex_IP[0]+'.'+arr_ex_IP[1]+'.'+arr_ex_IP[2]+'.'+id
+
+    print IP_
 
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.settimeout(10)

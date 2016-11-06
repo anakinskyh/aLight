@@ -24,9 +24,10 @@ def resetport(port):
         print err
 
 def setbylist(list):
-    for (k,v) in list:
+    print 'fuck'
+    #for (k,v) in list:
 
-        if v==0:
-            resetport(k)
-        else:
-            setport(k)
+        #if v==0:
+            #resetport(k)
+        #else:
+            #setport(k)

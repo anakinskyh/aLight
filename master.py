@@ -3,30 +3,37 @@ import sys
 import math
 import json
 import utility
+import datetime
+import hashlib
+
+myip = utility.get_ip()
+myid = myip.split('.')[3]
 
 def sendcmd(id,port,msg):
-    #IP_ = '192.168.1.'+id
-    IP_ = '127.0.0.1'
 
     exIP = utility.get_ip()
     arr_ex_IP = exIP.split('.')
-    #print arr_ex_IP
-    IP_ = arr_ex_IP[0]+'.'+arr_ex_IP[1]+'.'+arr_ex_IP[2]+'.'+id
+    # print arr_ex_IP
+    IP_ = arr_ex_IP[0] + '.' + arr_ex_IP[1] + '.' + arr_ex_IP[2] + '.' + id
 
-    print IP_
+    BC_IP = arr_ex_IP[0] + '.' + arr_ex_IP[1] + '.' + arr_ex_IP[2] + '.255'
 
-    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.settimeout(10)
-    try:
-        s.connect((IP_, port))
-    except socket.error, errmsg:
-        print errmsg
-        sys.exit(1)
+    msg['dest'] = IP_
+    msg['src'] = exIP
+    msg['id'] = utility.id_generator(10)
 
-    s.send(json.dumps(msg))
-    data = s.recv(1024)
-    s.close()
-    print "return :", data
+
+
+    print msg
+
+    s = socket.socket(socket.AF_INET,  # Internet
+                      socket.SOCK_DGRAM)  # UDP
+
+    for i in range(1,255):
+
+        itr_ip = arr_ex_IP[0] + '.' + arr_ex_IP[1] + '.' + arr_ex_IP[2] + '.'+str(i)
+        #print itr_ip
+        s.sendto(json.dumps(msg), (itr_ip, port))
 
 def readfile(path):
     return 0
@@ -90,6 +97,7 @@ if __name__ == '__main__':
     cmd = dict()
     cmd['cmd']=0
     cmd['arg']=[]
+    cmd['path']=str(myid)
 
     for ent in on:
         cmd['arg'].append((ent,1))
@@ -97,6 +105,6 @@ if __name__ == '__main__':
     for ent in off:
         cmd['arg'].append((ent,0))
 
-    #print cmd
+    print cmd
 
     sendcmd(_ID,_PORT,cmd)
